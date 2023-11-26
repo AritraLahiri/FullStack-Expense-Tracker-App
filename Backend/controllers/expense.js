@@ -3,7 +3,7 @@ const Expense = require("../models/expense");
 const Sequelize = require("sequelize");
 
 exports.getExpenses = (req, res, next) => {
-  Expense.findAll()
+  Expense.findAll({ where: { userId: req.user.id } })
     .then((expense) => {
       if (!expense)
         res.status(404).json({ success: false, message: "Expense not found" });
@@ -18,7 +18,7 @@ exports.addExpense = (req, res, next) => {
   const amount = req.body.amount;
   const description = req.body.description;
   const category = req.body.category;
-  Expense.create({ amount, description, category })
+  Expense.create({ amount, description, category, userId: req.user.id })
     .then((expense) => {
       if (!expense)
         res.status(404).json({ success: false, message: "Expense not added" });

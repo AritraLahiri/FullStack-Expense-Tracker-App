@@ -10,7 +10,9 @@ function addExpense(e) {
   const category = document.getElementById("expenseCategory").value;
   const expenseObj = { amount, description, category };
   axios
-    .post("http://localhost:3000/expense/addexpense", expenseObj)
+    .post("http://localhost:3000/expense/addexpense", expenseObj, {
+      headers: { Authorization: localStorage.getItem("userId") },
+    })
     .then((response) => {
       if (response.data.success) {
         let newItem = amount;
@@ -44,7 +46,9 @@ function addExpense(e) {
 
 function getAllExpensesFromAPI() {
   axios
-    .get("http://localhost:3000/expense/getexpense")
+    .get("http://localhost:3000/expense/getexpense", {
+      headers: { Authorization: localStorage.getItem("userId") },
+    })
     .then((expense) => {
       for (const exp of expense.data) {
         let newItem = exp.amount;

@@ -26,6 +26,7 @@ function logInUser(e) {
     .post("http://localhost:3000/user/login", userObj)
     .then((response) => {
       if (response.data.success) {
+        localStorage.setItem("userId", response.data.token);
         window.location.replace(
           "http://127.0.0.1:5500/Frontend/Expenses/index.html"
         );

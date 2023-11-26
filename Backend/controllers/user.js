@@ -1,7 +1,8 @@
 const User = require("../models/user");
 const Sequelize = require("sequelize");
-const { use } = require("../routes/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const secret = require("../util/secret");
 const saltRounds = 10;
 
 exports.signUpUser = (req, res, next) => {
@@ -34,7 +35,12 @@ exports.logInUser = (req, res, next) => {
           res
             .status(404)
             .json({ message: "Password didn't match", success: false });
-        else if (success) res.json({ message: "Login success", success: true });
+        else if (success)
+          res.json({
+            message: "Login success",
+            success: true,
+            token: generateAccessToken(user.id),
+          });
       });
     })
     .catch((err) => {
@@ -42,3 +48,7 @@ exports.logInUser = (req, res, next) => {
       return res.json(err);
     });
 };
+
+function generateAccessToken(id) {
+  return jwt.sign({ userId: id }, secret);
+}
