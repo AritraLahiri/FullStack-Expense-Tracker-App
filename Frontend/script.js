@@ -25,8 +25,11 @@ function logInUser(e) {
   axios
     .post("http://localhost:3000/user/login", userObj)
     .then((response) => {
-      if (response.data.success) alert("Login Success");
-      else alert("Login Failed !");
+      if (response.data.success) {
+        window.location.replace(
+          "http://127.0.0.1:5500/Frontend/Expenses/index.html"
+        );
+      } else alert("Login Failed !");
     })
     .catch((err) => console.log(err));
 }

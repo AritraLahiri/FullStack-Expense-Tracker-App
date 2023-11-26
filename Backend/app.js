@@ -5,12 +5,14 @@ const app = express();
 const bodyParser = require("body-parser");
 const sequelize = require("./util/database");
 const userRoute = require("./routes/user");
+const expenseRoute = require("./routes/expense");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use("/user", userRoute);
+app.use("/expense", expenseRoute);
 
 sequelize
   .sync()
