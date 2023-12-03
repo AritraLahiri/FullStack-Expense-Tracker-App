@@ -18,6 +18,7 @@ exports.signUpUser = (req, res, next) => {
       email,
       name,
       password: hash,
+      totalExpense: 0,
     });
     res.json({ createdUser: true });
   });

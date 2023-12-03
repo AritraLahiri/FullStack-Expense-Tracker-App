@@ -42,8 +42,8 @@ btnLeaderBoard.addEventListener("click", (e) => {
     })
     .then((expense) => {
       for (const exp of expense.data) {
-        let expenseAmount = exp.total_expense;
-        let userName = exp.user.name;
+        let expenseAmount = exp.totalExpense;
+        let userName = exp.name;
         let li = document.createElement("li");
         li.className = "list-group-item";
         li.appendChild(
@@ -122,7 +122,9 @@ function getAllExpensesFromAPI() {
         deleteBtn.addEventListener("click", function () {
           if (confirm("Do you want to delete expense?")) {
             axios
-              .delete(`http://localhost:3000/expense/${exp.id}`)
+              .delete(`http://localhost:3000/expense/${exp.id}`, {
+                headers: { Authorization: localStorage.getItem("userId") },
+              })
               .then((response) => {
                 console.log(response);
                 itemList.removeChild(this.parentElement);

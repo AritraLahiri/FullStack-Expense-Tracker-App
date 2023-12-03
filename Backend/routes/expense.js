@@ -10,6 +10,10 @@ router.get(
   userAuthMiddleware,
   expenseController.getAllUserExpenses
 );
-router.delete("/:expenseId", expenseController.deleteExpense);
+router.delete(
+  "/:expenseId",
+  userAuthMiddleware,
+  expenseController.deleteExpense
+);
 
 module.exports = router;
