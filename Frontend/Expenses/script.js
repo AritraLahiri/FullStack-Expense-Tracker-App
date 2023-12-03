@@ -4,6 +4,7 @@ const showAllUserExpenses = document.getElementById("showAllUserExpenses");
 const btnBuyPremium = document.getElementById("btnBuyPremimum");
 const premiumUserText = document.getElementById("premiumUserTxt");
 const btnLeaderBoard = document.getElementById("btnshowLeaderBoard");
+const divLeaderBoard = document.getElementById("leaderBoard");
 loadPremiumFeatures();
 
 btnBuyPremium.addEventListener("click", async function (e) {
@@ -34,6 +35,7 @@ btnBuyPremium.addEventListener("click", async function (e) {
 });
 
 btnLeaderBoard.addEventListener("click", (e) => {
+  divLeaderBoard.hidden = false;
   axios
     .get("http://localhost:3000/expense/getalluserexpenses", {
       headers: { Authorization: localStorage.getItem("userId") },

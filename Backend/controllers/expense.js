@@ -20,7 +20,6 @@ exports.getAllUserExpenses = (req, res, next) => {
   Expense.findAll({
     include: User,
     attributes: [
-      "userId",
       [Sequelize.fn("sum", Sequelize.col("amount")), "total_expense"],
     ],
     group: ["userId"],
