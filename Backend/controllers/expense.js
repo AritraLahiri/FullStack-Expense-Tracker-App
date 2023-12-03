@@ -3,7 +3,7 @@ const Expense = require("../models/expense");
 const Sequelize = require("sequelize");
 const User = require("../models/user");
 
-exports.getExpenses = (req, res, next) => {
+exports.getExpenses = async (req, res, next) => {
   Expense.findAll({ where: { userId: req.user.id } })
     .then((expense) => {
       if (!expense)
