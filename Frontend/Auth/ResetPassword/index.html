@@ -12,17 +12,14 @@
 <body>
     <div class="container my-5 ">
         <form class="form-inline" id="resetPassword">
-            <div class="mb-3" id="emailDiv">
-                <label class="form-label">Email address</label>
-                <input type="email" class="form-control" placeholder="name@example.com" id="userEmailReset">
-            </div>
-            <div class="mb-3" id="passDiv">
+            <div class="mb-3">
                 <label class="form-label">Enter new password</label>
-                <input type="password" class="form-control" id="userPassword">
+                <input type="password" class="form-control" placeholder="name@example.com" id="userPassword" required>
             </div>
-            <div class="mb-3" id="passConfirmDiv">
+            <div class="mb-3">
                 <label class="form-label">Confirm password</label>
-                <input type="password" class="form-control" id="userConfirmPassword">
+                <input type="password" class="form-control" placeholder="name@example.com" id="userConfirmPassword"
+                    required>
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-danger">Reset Password</button>
