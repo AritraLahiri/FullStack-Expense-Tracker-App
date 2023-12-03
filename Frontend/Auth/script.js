@@ -27,6 +27,7 @@ function logInUser(e) {
     .then((response) => {
       if (response.data.success) {
         localStorage.setItem("userId", response.data.token);
+        localStorage.setItem("isPremiumUser", response.data.isPremiumUser);
         window.location.replace(
           "http://127.0.0.1:5500/Frontend/Expenses/index.html"
         );

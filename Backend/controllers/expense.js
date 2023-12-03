@@ -1,6 +1,7 @@
 const e = require("express");
 const Expense = require("../models/expense");
 const Sequelize = require("sequelize");
+const User = require("../models/user");
 
 exports.getExpenses = (req, res, next) => {
   Expense.findAll({ where: { userId: req.user.id } })
@@ -14,6 +15,29 @@ exports.getExpenses = (req, res, next) => {
       res.json(err);
     });
 };
+
+exports.getAllUserExpenses = (req, res, next) => {
+  Expense.findAll({
+    include: User,
+    attributes: [
+      "userId",
+      [Sequelize.fn("sum", Sequelize.col("amount")), "total_expense"],
+    ],
+    group: ["userId"],
+  })
+    .then((expense) => {
+      if (!expense)
+        res.status(404).json({ success: false, message: "Expense not found" });
+      else {
+      }
+      res.json(expense);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json(err);
+    });
+};
+
 exports.addExpense = (req, res, next) => {
   const amount = req.body.amount;
   const description = req.body.description;

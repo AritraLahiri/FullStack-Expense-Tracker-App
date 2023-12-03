@@ -40,6 +40,7 @@ exports.logInUser = (req, res, next) => {
             message: "Login success",
             success: true,
             token: generateAccessToken(user.id),
+            isPremiumUser: user.isPremiumUser,
           });
       });
     })

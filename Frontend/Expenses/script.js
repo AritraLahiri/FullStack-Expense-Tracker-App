@@ -1,5 +1,60 @@
 const form = document.getElementById("expenseForm");
 const itemList = document.getElementById("showExpenses");
+const showAllUserExpenses = document.getElementById("showAllUserExpenses");
+const btnBuyPremium = document.getElementById("btnBuyPremimum");
+const premiumUserText = document.getElementById("premiumUserTxt");
+const btnLeaderBoard = document.getElementById("btnshowLeaderBoard");
+loadPremiumFeatures();
+
+btnBuyPremium.addEventListener("click", async function (e) {
+  const token = localStorage.getItem("userId");
+  const response = await axios.get("http://localhost:3000/order/buypremium", {
+    headers: { Authorization: token },
+  });
+  var options = {
+    key: response.data.key_id,
+    order_id: response.data.order.id,
+    handler: async function (response) {
+      await axios.post(
+        "http://localhost:3000/order/updatetransactionstatus",
+        {
+          order_id: options.order_id,
+          payment_id: response.razorpay_payment_id,
+        },
+        { headers: { Authorization: token } }
+      );
+      alert("Premium purchased");
+      btnBuyPremium.style.visibility = "hidden";
+      premiumUserText.style.visibility = "visible";
+    },
+  };
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
+  e.preventDefault();
+});
+
+btnLeaderBoard.addEventListener("click", (e) => {
+  axios
+    .get("http://localhost:3000/expense/getalluserexpenses", {
+      headers: { Authorization: localStorage.getItem("userId") },
+    })
+    .then((expense) => {
+      for (const exp of expense.data) {
+        let expenseAmount = exp.total_expense;
+        let userName = exp.user.name;
+        let li = document.createElement("li");
+        li.className = "list-group-item";
+        li.appendChild(
+          document.createTextNode(
+            `Name - ${userName} Total-Expense : ${expenseAmount}`
+          )
+        );
+        showAllUserExpenses.appendChild(li);
+      }
+    })
+    .catch((err) => console.log(err));
+});
+
 form.addEventListener("submit", addExpense);
 getAllExpensesFromAPI();
 
@@ -78,4 +133,12 @@ function getAllExpensesFromAPI() {
       }
     })
     .catch((err) => console.log(err));
+}
+
+function loadPremiumFeatures() {
+  if (localStorage.getItem("isPremiumUser") != "null") {
+    premiumUserText.hidden = false;
+    btnLeaderBoard.hidden = false;
+    btnBuyPremium.hidden = true;
+  }
 }
