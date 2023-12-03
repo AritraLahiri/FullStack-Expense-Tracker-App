@@ -18,7 +18,12 @@ exports.getExpenses = (req, res, next) => {
 
 exports.getAllUserExpenses = (req, res, next) => {
   Expense.findAll({
-    include: User,
+    include: [
+      {
+        model: User,
+        attributes: ["name"],
+      },
+    ],
     attributes: [
       [Sequelize.fn("sum", Sequelize.col("amount")), "total_expense"],
     ],
