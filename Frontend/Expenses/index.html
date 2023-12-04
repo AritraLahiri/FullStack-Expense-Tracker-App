@@ -34,6 +34,7 @@
                 <button type="submit" class="btn btn-success">Add Expense</button>
                 <button id="btnBuyPremimum" class="btn btn-warning">Buy Premium</button>
                 <button id="btnshowLeaderBoard" hidden class="btn btn-warning">Leaderboard</button>
+                <button id="btnDownloadReport" hidden class="btn btn-success">Download Report</button>
             </div>
         </form>
         <h3 id="premiumUserTxt" hidden>You are a premium user.</h3>
@@ -42,8 +43,6 @@
     <div class="container my-5">
         <ul class="list-group" id="showExpenses">
         </ul>
-
-
     </div>
 
     <div class="container my-5" hidden id="leaderBoard">
@@ -51,6 +50,78 @@
         <ul class="list-group" id="showAllUserExpenses">
         </ul>
     </div>
+    <div class="container-fluid" hidden id="reportSection">
+        <div class="container">
+            <h1>Day to Day Expenses</h1>
+            <h3>2021</h3>
+            <h5>March 2021</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Income</th>
+                        <th scope="col">Expense</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01-03-2021</td>
+                        <td>Milk</td>
+                        <td>Food</td>
+                        <td></td>
+                        <td>60.00</td>
+                    </tr>
+                    <tr>
+                        <td>16-03-2021</td>
+                        <td>Milk</td>
+                        <td>Food</td>
+                        <td>50</td>
+                        <td>70.00</td>
+                    </tr>
+                    <tr>
+                        <td>11-03-2021</td>
+                        <td>Milk</td>
+                        <td>Food</td>
+                        <td>65</td>
+                        <td>60.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="container">
+            <h1>Yearly Report</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Month</th>
+                        <th scope="col">Income</th>
+                        <th scope="col">Expense</th>
+                        <th scope="col">Savings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>March</td>
+                        <td>60,000</td>
+                        <td>5670</td>
+                        <td>54330</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="te">60,000</td>
+                        <td>5670</td>
+                        <td>54330</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.js"></script>

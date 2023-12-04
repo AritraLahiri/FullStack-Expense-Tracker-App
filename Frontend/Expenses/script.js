@@ -2,9 +2,11 @@ const form = document.getElementById("expenseForm");
 const itemList = document.getElementById("showExpenses");
 const showAllUserExpenses = document.getElementById("showAllUserExpenses");
 const btnBuyPremium = document.getElementById("btnBuyPremimum");
+const btnDownloadReport = document.getElementById("btnDownloadReport");
 const premiumUserText = document.getElementById("premiumUserTxt");
 const btnLeaderBoard = document.getElementById("btnshowLeaderBoard");
 const divLeaderBoard = document.getElementById("leaderBoard");
+const divReport = document.getElementById("reportSection");
 loadPremiumFeatures();
 
 btnBuyPremium.addEventListener("click", async function (e) {
@@ -24,9 +26,10 @@ btnBuyPremium.addEventListener("click", async function (e) {
         },
         { headers: { Authorization: token } }
       );
+      localStorage.setItem("isPremiumUser", true);
       alert("Premium purchased");
       btnBuyPremium.style.visibility = "hidden";
-      premiumUserText.style.visibility = "visible";
+      loadPremiumFeatures();
     },
   };
   var rzp1 = new Razorpay(options);
@@ -143,6 +146,8 @@ function loadPremiumFeatures() {
   if (localStorage.getItem("isPremiumUser") != "null") {
     premiumUserText.hidden = false;
     btnLeaderBoard.hidden = false;
+    btnDownloadReport.hidden = false;
+    divReport.hidden = false;
     btnBuyPremium.hidden = true;
   }
 }
