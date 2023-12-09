@@ -16,7 +16,7 @@ exports.getExpenses = async (req, res, next) => {
         const count = expense.count;
         const hasPreviousPage = parseInt(req.params.pageNo) == 0 ? false : true;
         const hasNextPage =
-          (parseInt(req.params.pageNo) + 1) * 2 == count ? false : true;
+          (parseInt(req.params.pageNo) + 1) * 2 >= count ? false : true;
         const previousPageNo =
           parseInt(req.params.pageNo) == 0
             ? 0
