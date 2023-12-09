@@ -4,7 +4,11 @@ const router = express.Router();
 const userAuthMiddleware = require("../middleware/userAuth");
 
 router.post("/addexpense", userAuthMiddleware, expenseController.addExpense);
-router.get("/getexpense", userAuthMiddleware, expenseController.getExpenses);
+router.get(
+  "/getexpense/:pageNo",
+  userAuthMiddleware,
+  expenseController.getExpenses
+);
 router.get(
   "/getalluserexpenses",
   userAuthMiddleware,

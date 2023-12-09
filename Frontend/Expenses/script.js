@@ -7,6 +7,8 @@ const premiumUserText = document.getElementById("premiumUserTxt");
 const btnLeaderBoard = document.getElementById("btnshowLeaderBoard");
 const divLeaderBoard = document.getElementById("leaderBoard");
 const divReport = document.getElementById("reportSection");
+const divPageNo = document.getElementById("pageNo");
+
 loadPremiumFeatures();
 
 btnBuyPremium.addEventListener("click", async function (e) {
@@ -104,13 +106,14 @@ function addExpense(e) {
     .catch((err) => console.log(err));
 }
 
-function getAllExpensesFromAPI() {
+function getAllExpensesFromAPI(pageNo = 0) {
   axios
-    .get("http://localhost:3000/expense/getexpense", {
+    .get(`http://localhost:3000/expense/getexpense/${pageNo}`, {
       headers: { Authorization: localStorage.getItem("userId") },
     })
     .then((expense) => {
-      for (const exp of expense.data) {
+      // divPageNo.removeChild();
+      for (const exp of expense.data.rows) {
         let newItem = exp.amount;
         let newItemDesc = exp.description;
         let newItemCategory = exp.category;
@@ -138,6 +141,39 @@ function getAllExpensesFromAPI() {
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
       }
+      let previousPage = document.createElement("button");
+      let currentPage = document.createElement("button");
+      let nextPage = document.createElement("button");
+      previousPage.className = "btn btn-sm";
+      previousPage.appendChild(
+        document.createTextNode(expense.data.pageDetails.previousPageNo + 1)
+      );
+      nextPage.className = "btn btn-sm";
+      nextPage.appendChild(
+        document.createTextNode(expense.data.pageDetails.nextPageNo + 1)
+      );
+      if (expense.data.pageDetails.hasPreviousPage) {
+        previousPage.addEventListener("click", () => {
+          itemList.innerHTML = "";
+          divPageNo.innerHTML = "";
+          getAllExpensesFromAPI(expense.data.pageDetails.previousPageNo);
+        });
+        divPageNo.appendChild(previousPage);
+      }
+      currentPage.className = "btn btn-sm btn-success";
+      currentPage.appendChild(
+        document.createTextNode(expense.data.pageDetails.currentPage)
+      );
+      divPageNo.appendChild(currentPage);
+
+      if (expense.data.pageDetails.hasNextPage) {
+        nextPage.addEventListener("click", () => {
+          itemList.innerHTML = "";
+          divPageNo.innerHTML = "";
+          getAllExpensesFromAPI(expense.data.pageDetails.nextPageNo);
+        });
+        divPageNo.appendChild(nextPage);
+      }
     })
     .catch((err) => console.log(err));
 }
@@ -147,7 +183,7 @@ function loadPremiumFeatures() {
     premiumUserText.hidden = false;
     btnLeaderBoard.hidden = false;
     btnDownloadReport.hidden = false;
-    divReport.hidden = false;
+    //divReport.hidden = false;
     btnBuyPremium.hidden = true;
   }
 }

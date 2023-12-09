@@ -4,11 +4,38 @@ const Sequelize = require("sequelize");
 const User = require("../models/user");
 
 exports.getExpenses = async (req, res, next) => {
-  Expense.findAll({ where: { userId: req.user.id } })
+  Expense.findAndCountAll({
+    where: { userId: req.user.id },
+    offset: parseInt(req.params.pageNo) * 2,
+    limit: 2,
+  })
     .then((expense) => {
       if (!expense)
         res.status(404).json({ success: false, message: "Expense not found" });
-      else res.json(expense);
+      else {
+        const count = expense.count;
+        const hasPreviousPage = parseInt(req.params.pageNo) == 0 ? false : true;
+        const hasNextPage =
+          (parseInt(req.params.pageNo) + 1) * 2 == count ? false : true;
+        const previousPageNo =
+          parseInt(req.params.pageNo) == 0
+            ? 0
+            : parseInt(req.params.pageNo) - 1;
+        const nextPageNo =
+          (parseInt(req.params.pageNo) + 1) * 2 == count
+            ? -1
+            : parseInt(req.params.pageNo) + 1;
+        const currentPage = parseInt(req.params.pageNo) + 1;
+        const pageDetails = {
+          hasNextPage,
+          hasPreviousPage,
+          nextPageNo,
+          previousPageNo,
+          currentPage,
+        };
+        expense.pageDetails = pageDetails;
+        res.json(expense);
+      }
     })
     .catch((err) => {
       console.log(err);
