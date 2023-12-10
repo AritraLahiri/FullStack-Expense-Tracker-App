@@ -86,7 +86,7 @@ function addExpense(e) {
         li.appendChild(document.createTextNode(" " + newItemDesc));
         li.appendChild(document.createTextNode(" " + newItemCategory + "  "));
         let deleteBtn = document.createElement("button");
-        deleteBtn.className = "btn btn-danger btn-sm";
+        deleteBtn.className = "btn btn-danger btn-sm d-flex";
         deleteBtn.appendChild(document.createTextNode("Delete"));
         deleteBtn.addEventListener("click", function () {
           if (confirm("Do you want to delete expense?")) {
@@ -112,7 +112,6 @@ function getAllExpensesFromAPI(pageNo = 0) {
       headers: { Authorization: localStorage.getItem("userId") },
     })
     .then((expense) => {
-      // divPageNo.removeChild();
       for (const exp of expense.data.rows) {
         let newItem = exp.amount;
         let newItemDesc = exp.description;
@@ -123,7 +122,7 @@ function getAllExpensesFromAPI(pageNo = 0) {
         li.appendChild(document.createTextNode(" " + newItemDesc));
         li.appendChild(document.createTextNode(" " + newItemCategory + "  "));
         let deleteBtn = document.createElement("button");
-        deleteBtn.className = "btn btn-danger btn-sm";
+        deleteBtn.className = "btn btn-danger btn-sm d-flex";
         deleteBtn.appendChild(document.createTextNode("Delete"));
         deleteBtn.addEventListener("click", function () {
           if (confirm("Do you want to delete expense?")) {
@@ -182,7 +181,7 @@ function loadPremiumFeatures() {
   if (localStorage.getItem("isPremiumUser") != "null") {
     premiumUserText.hidden = false;
     btnLeaderBoard.hidden = false;
-    btnDownloadReport.hidden = false;
+    //btnDownloadReport.hidden = false;
     //divReport.hidden = false;
     btnBuyPremium.hidden = true;
   }

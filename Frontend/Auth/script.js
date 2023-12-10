@@ -1,8 +1,8 @@
 const form = document.getElementById("signUpUser");
 const formLogIn = document.getElementById("logInUser");
 
-form.addEventListener("submit", signUpUser);
-formLogIn.addEventListener("submit", logInUser);
+if (form != null) form.addEventListener("submit", signUpUser);
+if (formLogIn != null) formLogIn.addEventListener("submit", logInUser);
 
 function signUpUser(e) {
   e.preventDefault();
@@ -13,7 +13,11 @@ function signUpUser(e) {
   axios
     .post("http://localhost:3000/user/signup", userObj)
     .then((response) => {
-      console.log(response);
+      if (!response) alert("Something went wrong!");
+      else
+        window.location.replace(
+          "http://127.0.0.1:5500/Frontend/Auth/index.html"
+        );
     })
     .catch((err) => console.log(err));
 }

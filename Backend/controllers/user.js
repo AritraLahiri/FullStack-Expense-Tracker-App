@@ -107,14 +107,13 @@ exports.resetPassword = (req, res) => {
     if (!data)
       res.status(404).json({ success: false, message: "Request not found" });
     if (!data.isActive) res.status(201).json(data);
-    ForgotPassReq.update({ isActive: false })
+    ForgotPassReq.update({ isActive: false }, { where: { id: reqId } })
       .then(() => {
         res.redirect(
-          `http://127.0.0.1:5500/Frontend/Auth/ForgotPassword/ForgotPassword.html?id=${data.userId}`
+          `http://127.0.0.1:5500/Frontend/Auth/ResetPassword/index.html?id=${data.userId}`
         );
       })
       .catch((err) => console.log(err));
-    // res.status(200).json(data);
   });
 };
 
